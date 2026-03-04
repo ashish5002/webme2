@@ -1,1028 +1,418 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Esther Howard — Designer Portfolio</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --bg: #08080f;
-    --bg2: #0f0f1a;
-    --bg3: #13131f;
-    --accent: #7c5cfc;
-    --accent2: #a78bfa;
-    --accent3: #c084fc;
-    --text: #e2e2f0;
-    --muted: #8888aa;
-    --border: rgba(124,92,252,0.15);
-    --card: rgba(255,255,255,0.03);
-  }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Outfit', sans-serif;
-    font-size: 16px;
-    line-height: 1.6;
-    overflow-x: hidden;
-    cursor: none;
-  }
-
-  /* Custom cursor */
-  #cursor {
-    width: 12px; height: 12px;
-    background: var(--accent);
-    border-radius: 50%;
-    position: fixed; top: 0; left: 0;
-    pointer-events: none; z-index: 9999;
-    transform: translate(-50%,-50%);
-    transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
-  }
-  #cursor-ring {
-    width: 36px; height: 36px;
-    border: 1.5px solid var(--accent2);
-    border-radius: 50%;
-    position: fixed; top: 0; left: 0;
-    pointer-events: none; z-index: 9998;
-    transform: translate(-50%,-50%);
-    transition: transform 0.15s ease, width 0.3s, height 0.3s;
-    opacity: 0.6;
-  }
-  body:hover #cursor { opacity: 1; }
-
-  /* Scrollbar */
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
-
-  /* Typography */
-  h1, h2, h3, h4 { font-family: 'Syne', sans-serif; line-height: 1.15; }
-
-  .section-tag {
-    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
-    color: var(--muted); font-family: 'Outfit', sans-serif; font-weight: 500;
-  }
-
-  .accent { color: var(--accent2); }
-  .accent-bright { color: var(--accent); }
-
-  /* Decorative stars */
-  .star {
-    display: inline-block;
-    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-  }
-  .star-4 {
-    display: inline-block;
-    background: var(--accent);
-    clip-path: polygon(50% 0%, 55% 45%, 100% 50%, 55% 55%, 50% 100%, 45% 55%, 0% 50%, 45% 45%);
-  }
-
-  /* Buttons */
-  .btn {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 12px 28px; border-radius: 50px;
-    font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500;
-    cursor: none; text-decoration: none; transition: all 0.3s ease;
-    border: none; outline: none;
-  }
-  .btn-primary {
-    background: var(--accent);
-    color: #fff;
-    box-shadow: 0 0 30px rgba(124,92,252,0.4);
-  }
-  .btn-primary:hover {
-    background: var(--accent2);
-    box-shadow: 0 0 50px rgba(124,92,252,0.6);
-    transform: translateY(-2px);
-  }
-  .btn-ghost {
-    background: transparent; color: var(--text);
-    border: 1px solid var(--border);
-  }
-  .btn-ghost:hover {
-    border-color: var(--accent);
-    color: var(--accent2);
-    transform: translateY(-2px);
-  }
-  .btn-arrow { display: inline-flex; align-items: center; gap: 10px; color: var(--text); text-decoration: none; font-weight: 500; font-size: 14px; transition: gap 0.3s; }
-  .btn-arrow:hover { gap: 16px; color: var(--accent2); }
-  .btn-arrow svg { transition: transform 0.3s; }
-  .btn-arrow:hover svg { transform: translateX(4px); }
-
-  /* ─── TOPBAR ─── */
-  .topbar {
-    background: rgba(8,8,15,0.9);
-    border-bottom: 1px solid var(--border);
-    padding: 10px 60px;
-    display: flex; align-items: center; justify-content: space-between;
-    font-size: 12px; color: var(--muted);
-    backdrop-filter: blur(10px);
-  }
-  .topbar-socials { display: flex; gap: 16px; }
-  .topbar-socials a { color: var(--muted); text-decoration: none; transition: color 0.3s; font-size: 14px; }
-  .topbar-socials a:hover { color: var(--accent2); }
-  .topbar-contact { display: flex; gap: 30px; }
-  .topbar-contact span { display: flex; align-items: center; gap: 6px; }
-
-  /* ─── NAVBAR ─── */
-  nav {
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(8,8,15,0.85);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-    padding: 18px 60px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .nav-logo { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: var(--text); text-decoration: none; display: flex; align-items: center; gap: 8px; }
-  .nav-logo span { width: 22px; height: 22px; background: var(--accent); border-radius: 6px; display: inline-block; }
-  .nav-links { display: flex; gap: 36px; list-style: none; }
-  .nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.3s; position: relative; }
-  .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: var(--accent); transition: width 0.3s; }
-  .nav-links a:hover { color: var(--text); }
-  .nav-links a:hover::after { width: 100%; }
-  .nav-links a.active { color: var(--text); }
-  .nav-links a.active::after { width: 100%; }
-
-  /* ─── HERO ─── */
-  .hero {
-    min-height: calc(100vh - 110px);
-    display: grid; grid-template-columns: 1fr 1fr;
-    align-items: center;
-    padding: 60px 60px 60px;
-    position: relative; overflow: hidden;
-    gap: 40px;
-  }
-  .hero::before {
-    content: '';
-    position: absolute; top: -200px; right: -200px;
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(124,92,252,0.15) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .hero::after {
-    content: '';
-    position: absolute; bottom: -100px; left: -100px;
-    width: 400px; height: 400px;
-    background: radial-gradient(circle, rgba(192,132,252,0.08) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .hero-content { position: relative; z-index: 2; }
-
-  .hero-eyebrow {
-    display: flex; align-items: center; gap: 12px;
-    margin-bottom: 24px;
-  }
-  .hero-eyebrow-line { width: 40px; height: 1px; background: var(--accent); }
-  .hero-eyebrow span { font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent2); }
-
-  .hero h1 {
-    font-size: clamp(42px, 5vw, 68px);
-    font-weight: 800;
-    margin-bottom: 8px;
-    line-height: 1.1;
-  }
-  .hero h1 .name {
-    background: linear-gradient(135deg, var(--accent) 0%, var(--accent3) 100%);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text;
-    display: block;
-  }
-  .hero-desc { color: var(--muted); max-width: 420px; margin: 20px 0 36px; font-size: 15px; line-height: 1.7; }
-
-  .hero-actions { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
-
-  .hero-stats {
-    display: flex; gap: 36px; margin-top: 52px;
-    padding-top: 36px; border-top: 1px solid var(--border);
-  }
-  .hero-stat-num { font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800; color: var(--text); line-height: 1; }
-  .hero-stat-num span { color: var(--accent); }
-  .hero-stat-label { font-size: 12px; color: var(--muted); margin-top: 4px; }
-
-  /* Hero image side */
-  .hero-visual { position: relative; display: flex; justify-content: center; align-items: center; }
-
-  .hero-img-wrap {
-    width: 420px; height: 480px;
-    position: relative; border-radius: 24px;
-    overflow: hidden;
-    background: linear-gradient(135deg, var(--bg3) 0%, var(--bg2) 100%);
-    border: 1px solid var(--border);
-  }
-  .hero-img-wrap::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(8,8,15,0.8) 0%, transparent 60%);
-    z-index: 1;
-  }
-  .hero-img-placeholder {
-    width: 100%; height: 100%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 120px; opacity: 0.3;
-    background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
-  }
-
-  .badge-rotate {
-    position: absolute; bottom: 40px; right: -20px;
-    width: 110px; height: 110px; z-index: 10;
-  }
-  .badge-rotate svg { animation: rotateBadge 12s linear infinite; }
-  .badge-inner {
-    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-    font-size: 20px;
-  }
-
-  @keyframes rotateBadge { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-  .deco-orb {
-    position: absolute;
-    border-radius: 50%;
-    border: 1px solid var(--border);
-    animation: float 4s ease-in-out infinite;
-  }
-  .deco-orb-1 { width: 60px; height: 60px; top: 20px; left: -30px; animation-delay: 0s; }
-  .deco-orb-2 { width: 40px; height: 40px; bottom: 100px; left: -60px; animation-delay: 1.5s; background: rgba(124,92,252,0.1); }
-
-  .deco-star-1 { position: absolute; top: 30px; right: -10px; width: 22px; height: 22px; background: var(--accent); animation: float 3s ease-in-out infinite; }
-  .deco-star-2 { position: absolute; top: 160px; left: -40px; width: 14px; height: 14px; background: var(--accent3); animation: float 5s ease-in-out infinite 1s; }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-12px); }
-  }
-
-  /* ─── SECTION BASE ─── */
-  section { padding: 100px 60px; }
-  .section-header { text-align: center; margin-bottom: 64px; }
-  .section-header h2 { font-size: clamp(32px, 4vw, 48px); font-weight: 800; margin-top: 10px; }
-
-  /* ─── SPECIALITIES ─── */
-  .specialities { background: var(--bg2); }
-
-  .spec-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
-  }
-
-  .spec-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 36px 32px;
-    transition: all 0.4s ease;
-    position: relative; overflow: hidden;
-  }
-  .spec-card::before {
-    content: '';
-    position: absolute; top: -1px; left: 0; right: 0; height: 2px;
-    background: linear-gradient(90deg, transparent, var(--accent), transparent);
-    opacity: 0; transition: opacity 0.4s;
-  }
-  .spec-card:hover { border-color: rgba(124,92,252,0.4); transform: translateY(-6px); background: rgba(124,92,252,0.05); }
-  .spec-card:hover::before { opacity: 1; }
-
-  .spec-icon {
-    width: 56px; height: 56px;
-    background: rgba(124,92,252,0.1);
-    border-radius: 14px; display: flex;
-    align-items: center; justify-content: center;
-    margin-bottom: 20px;
-    border: 1px solid rgba(124,92,252,0.2);
-    font-size: 24px;
-    transition: background 0.4s;
-  }
-  .spec-card:hover .spec-icon { background: rgba(124,92,252,0.2); }
-
-  .spec-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
-  .spec-card p { color: var(--muted); font-size: 14px; line-height: 1.7; }
-
-  /* ─── WORK PROCESS ─── */
-  .process { background: var(--bg); }
-  .process-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-  .process-steps { display: flex; flex-direction: column; gap: 0; }
-
-  .process-step {
-    display: flex; gap: 24px; padding: 28px 0;
-    border-bottom: 1px solid var(--border);
-    position: relative; transition: all 0.3s;
-  }
-  .process-step:last-child { border-bottom: none; }
-  .process-step:hover .step-num { color: var(--accent2); }
-
-  .step-num { font-family: 'Syne', sans-serif; font-size: 13px; color: var(--muted); font-weight: 700; min-width: 36px; padding-top: 4px; letter-spacing: 1px; }
-  .step-content h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
-  .step-content p { color: var(--muted); font-size: 14px; line-height: 1.65; }
-
-  .process-visual {
-    position: relative;
-    background: var(--bg3);
-    border-radius: 24px;
-    border: 1px solid var(--border);
-    overflow: hidden;
-    height: 500px;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .process-visual-inner { text-align: center; padding: 40px; }
-  .big-num { font-family: 'Syne', sans-serif; font-size: 120px; font-weight: 800; background: linear-gradient(135deg, var(--accent) 0%, var(--accent3) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; }
-  .process-visual p { color: var(--muted); font-size: 14px; margin-top: 16px; }
-
-  /* ─── PORTFOLIO ─── */
-  .portfolio { background: var(--bg2); }
-  .portfolio-filter { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 48px; }
-  .filter-btn { padding: 8px 22px; border-radius: 50px; border: 1px solid var(--border); background: transparent; color: var(--muted); font-family: 'Outfit', sans-serif; font-size: 13px; cursor: none; transition: all 0.3s; }
-  .filter-btn.active, .filter-btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
-
-  .portfolio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-  .portfolio-card {
-    border-radius: 16px; overflow: hidden;
-    border: 1px solid var(--border);
-    position: relative; group: true;
-    background: var(--bg3);
-    cursor: none; transition: transform 0.4s, border-color 0.4s;
-  }
-  .portfolio-card:hover { transform: translateY(-6px); border-color: rgba(124,92,252,0.4); }
-  .portfolio-card:first-child { grid-column: span 2; }
-
-  .portfolio-img {
-    width: 100%; aspect-ratio: 16/10;
-    background: linear-gradient(135deg, #1a1a2e, #16213e);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 60px; position: relative; overflow: hidden;
-  }
-  .portfolio-card:first-child .portfolio-img { font-size: 80px; }
-
-  .portfolio-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(8,8,15,0.95) 0%, rgba(8,8,15,0.4) 50%, transparent 100%);
-    display: flex; flex-direction: column; justify-content: flex-end;
-    padding: 24px;
-    opacity: 0; transition: opacity 0.4s;
-  }
-  .portfolio-card:hover .portfolio-overlay { opacity: 1; }
-  .portfolio-overlay h3 { font-size: 18px; font-weight: 700; color: #fff; }
-  .portfolio-overlay p { color: var(--muted); font-size: 13px; margin-top: 4px; }
-  .portfolio-tag { display: inline-block; padding: 4px 12px; background: rgba(124,92,252,0.3); border: 1px solid rgba(124,92,252,0.5); border-radius: 50px; font-size: 11px; color: var(--accent2); margin-bottom: 8px; }
-
-  .portfolio-info { padding: 18px; }
-  .portfolio-info h3 { font-size: 15px; font-weight: 700; }
-  .portfolio-info p { color: var(--muted); font-size: 12px; margin-top: 4px; }
-
-  /* ─── TESTIMONIAL ─── */
-  .testimonial { background: var(--bg); }
-  .testimonial-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-
-  .testimonial-img-wrap {
-    position: relative;
-  }
-  .testimonial-img {
-    width: 100%; height: 480px;
-    border-radius: 24px;
-    background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 100px; border: 1px solid var(--border);
-    overflow: hidden; position: relative;
-  }
-  .testimonial-img::after {
-    content: '';
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(8,8,15,0.6) 0%, transparent 60%);
-  }
-
-  .testimonial-badge {
-    position: absolute; bottom: 30px; right: 30px;
-    background: var(--bg2); border: 1px solid var(--border);
-    border-radius: 16px; padding: 16px 20px;
-    display: flex; align-items: center; gap: 12px;
-    z-index: 2;
-  }
-  .testimonial-badge .avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 18px; }
-  .testimonial-badge .badge-text small { font-size: 11px; color: var(--muted); }
-  .testimonial-badge .badge-text strong { display: block; font-size: 13px; }
-
-  .testimonial-content { }
-  .quote-mark { font-family: 'Syne', sans-serif; font-size: 80px; color: var(--accent); line-height: 0.8; margin-bottom: 20px; }
-  .testimonial-text { font-size: 18px; line-height: 1.7; color: var(--text); font-weight: 300; margin-bottom: 32px; font-style: italic; }
-  .testimonial-author h4 { font-size: 18px; font-weight: 700; }
-  .testimonial-author p { color: var(--muted); font-size: 13px; margin-top: 4px; }
-  .testimonial-stars { color: #fbbf24; font-size: 16px; margin-top: 10px; }
-
-  .testimonial-nav { display: flex; gap: 12px; margin-top: 36px; }
-  .t-nav-btn {
-    width: 44px; height: 44px; border-radius: 50%;
-    border: 1px solid var(--border); background: transparent;
-    color: var(--text); cursor: none;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.3s; font-size: 16px;
-  }
-  .t-nav-btn:hover { background: var(--accent); border-color: var(--accent); }
-
-  /* ─── TEAM ─── */
-  .team { background: var(--bg2); }
-  .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
-
-  .team-card {
-    border-radius: 20px; overflow: hidden;
-    border: 1px solid var(--border); background: var(--bg3);
-    transition: all 0.4s; cursor: none;
-  }
-  .team-card:hover { transform: translateY(-6px); border-color: rgba(124,92,252,0.4); }
-
-  .team-photo {
-    height: 200px; width: 100%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 64px;
-    filter: grayscale(100%) brightness(0.7);
-    transition: filter 0.5s;
-    background: linear-gradient(135deg, #1a1a2e, #16213e);
-    position: relative;
-  }
-  .team-card:hover .team-photo { filter: grayscale(0%) brightness(1); }
-
-  .team-info { padding: 20px; }
-  .team-info h3 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
-  .team-role { font-size: 12px; color: var(--accent2); font-weight: 500; margin-bottom: 8px; }
-  .team-info p { font-size: 12px; color: var(--muted); line-height: 1.5; }
-
-  /* ─── CTA BANNER ─── */
-  .cta-banner {
-    margin: 0 60px;
-    border-radius: 24px;
-    background: linear-gradient(135deg, var(--accent) 0%, #5b21b6 50%, #6d28d9 100%);
-    padding: 64px;
-    display: flex; align-items: center; justify-content: space-between;
-    position: relative; overflow: hidden;
-  }
-  .cta-banner::before {
-    content: '';
-    position: absolute; top: -100px; right: -100px;
-    width: 400px; height: 400px;
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-  }
-  .cta-banner h2 { font-size: 40px; font-weight: 800; color: #fff; max-width: 500px; }
-  .cta-banner p { color: rgba(255,255,255,0.7); margin-top: 8px; }
-  .btn-white { background: #fff; color: var(--accent); font-weight: 600; }
-  .btn-white:hover { background: rgba(255,255,255,0.9); box-shadow: 0 0 40px rgba(255,255,255,0.3); transform: translateY(-2px); }
-
-  /* ─── FOOTER ─── */
-  footer {
-    background: var(--bg);
-    border-top: 1px solid var(--border);
-    padding: 80px 60px 40px;
-  }
-  .footer-grid {
-    display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 60px;
-    margin-bottom: 60px;
-  }
-  .footer-brand p { color: var(--muted); font-size: 14px; margin-top: 16px; max-width: 260px; line-height: 1.7; }
-  .footer-socials { display: flex; gap: 12px; margin-top: 28px; }
-  .social-btn {
-    width: 38px; height: 38px; border-radius: 50%;
-    border: 1px solid var(--border); background: transparent;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--muted); text-decoration: none; font-size: 14px;
-    transition: all 0.3s;
-  }
-  .social-btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
-
-  .footer-col h4 { font-size: 15px; font-weight: 700; margin-bottom: 20px; }
-  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-  .footer-links a { color: var(--muted); text-decoration: none; font-size: 14px; transition: color 0.3s; }
-  .footer-links a:hover { color: var(--accent2); }
-
-  .footer-contact-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 14px; }
-  .footer-contact-item span:first-child { color: var(--accent2); margin-top: 2px; }
-  .footer-contact-item span:last-child { color: var(--muted); font-size: 13px; line-height: 1.5; }
-
-  .footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; display: flex; align-items: center; justify-content: space-between; }
-  .footer-bottom p { color: var(--muted); font-size: 13px; }
-  .footer-bottom span { color: var(--accent2); }
-
-  /* ─── ANIMATIONS ─── */
-  .fade-up {
-    opacity: 0; transform: translateY(30px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-  .fade-up.visible { opacity: 1; transform: translateY(0); }
-
-  .stagger-1 { transition-delay: 0.1s; }
-  .stagger-2 { transition-delay: 0.2s; }
-  .stagger-3 { transition-delay: 0.3s; }
-  .stagger-4 { transition-delay: 0.4s; }
-
-  /* Responsive */
-  @media (max-width: 1024px) {
-    .hero { grid-template-columns: 1fr; padding: 60px 30px; }
-    .hero-visual { display: none; }
-    section { padding: 70px 30px; }
-    nav, .topbar { padding: 16px 30px; }
-    .spec-grid, .team-grid { grid-template-columns: repeat(2, 1fr); }
-    .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
-    .portfolio-card:first-child { grid-column: span 1; }
-    .process-grid, .testimonial-grid { grid-template-columns: 1fr; }
-    .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
-    .cta-banner { margin: 0 30px; flex-direction: column; gap: 30px; text-align: center; }
-  }
-
-  @media (max-width: 600px) {
-    .topbar { display: none; }
-    .nav-links { display: none; }
-    .spec-grid, .team-grid, .portfolio-grid { grid-template-columns: 1fr; }
-    .footer-grid { grid-template-columns: 1fr; }
-    .hero-stats { flex-wrap: wrap; gap: 24px; }
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esther Howard — Designer Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- Custom cursor -->
-<div id="cursor"></div>
-<div id="cursor-ring"></div>
+    <div id="cursor"></div>
+    <div id="cursor-ring"></div>
 
-<!-- ─── TOPBAR ─── -->
-<div class="topbar">
-  <div class="topbar-socials">
-    <a href="#" title="LinkedIn">in</a>
-    <a href="#" title="Facebook">f</a>
-    <a href="#" title="Tumblr">t</a>
-    <a href="#" title="Dribbble">◎</a>
-  </div>
-  <div class="topbar-contact">
-    <span>📞 +223 456 789</span>
-    <span>✉ example@gmail.com</span>
-    <span>📍 6391 Elgin St. Celina, Delaware</span>
-  </div>
-</div>
-
-<!-- ─── NAVBAR ─── -->
-<nav>
-  <a class="nav-logo" href="#">
-    <span></span>designer
-  </a>
-  <ul class="nav-links">
-    <li><a href="#" class="active">Home</a></li>
-    <li><a href="#specialities">Service</a></li>
-    <li><a href="#portfolio">Projects</a></li>
-    <li><a href="#process">About</a></li>
-    <li><a href="#team">Client</a></li>
-    <li><a href="#footer">Contact</a></li>
-  </ul>
-  <a href="#cta" class="btn btn-primary" style="font-size:13px; padding:10px 22px;">Discuss for Projects</a>
-</nav>
-
-<!-- ─── HERO ─── -->
-<section class="hero" id="home">
-  <div class="hero-content">
-    <div class="hero-eyebrow fade-up">
-      <div class="hero-eyebrow-line"></div>
-      <span>Creative Designer</span>
-    </div>
-    <h1 class="fade-up stagger-1">
-      This is your<br>designer
-      <span class="name">Esther Howard</span>
-    </h1>
-    <p class="hero-desc fade-up stagger-2">
-      Award-winning UI/UX designer crafting bold digital experiences that convert. Turning complex problems into elegant, user-centered solutions.
-    </p>
-    <div class="hero-actions fade-up stagger-3">
-      <a href="#cta" class="btn btn-primary">Discuss for Projects</a>
-      <a href="#portfolio" class="btn-arrow">
-        View Portfolios
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-    </div>
-    <div class="hero-stats fade-up stagger-4">
-      <div>
-        <div class="hero-stat-num">8<span>+</span></div>
-        <div class="hero-stat-label">Years Experience</div>
-      </div>
-      <div>
-        <div class="hero-stat-num">240<span>+</span></div>
-        <div class="hero-stat-label">Projects Done</div>
-      </div>
-      <div>
-        <div class="hero-stat-num">98<span>%</span></div>
-        <div class="hero-stat-label">Client Satisfaction</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="hero-visual fade-up stagger-2">
-    <!-- Decorative elements -->
-    <div class="deco-orb deco-orb-1"></div>
-    <div class="deco-orb deco-orb-2"></div>
-    <div class="star-4 deco-star-1" style="width:22px;height:22px;"></div>
-    <div class="star-4 deco-star-2" style="width:14px;height:14px;background:var(--accent3);"></div>
-
-    <div class="hero-img-wrap">
-      <div class="hero-img-placeholder">👤</div>
-
-      <!-- Rotating badge -->
-      <div class="badge-rotate">
-        <svg viewBox="0 0 110 110" width="110" height="110">
-          <defs>
-            <path id="circlePath" d="M 55,55 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0" />
-          </defs>
-          <circle cx="55" cy="55" r="44" fill="#13131f" stroke="rgba(124,92,252,0.3)" stroke-width="1"/>
-          <text fill="rgba(200,200,220,0.8)" font-size="9.5" font-family="Outfit" letter-spacing="2.5">
-            <textPath href="#circlePath">100% SKILLED IN DESIGN • 100% SKILLED IN DESIGN •</textPath>
-          </text>
-        </svg>
-        <div class="badge-inner">✦</div>
-      </div>
-    </div>
-
-    <!-- Floating accent shapes -->
-    <div style="position:absolute;top:40px;right:20px;" class="star-4" style="width:18px;height:18px;background:var(--accent);animation:float 4s ease-in-out infinite;"></div>
-    <div style="position:absolute;bottom:80px;left:10px;width:50px;height:50px;border-radius:50%;border:2px solid rgba(124,92,252,0.3);animation:float 5s ease-in-out infinite 0.5s;"></div>
-  </div>
-</section>
-
-<!-- ─── SPECIALITIES ─── -->
-<section class="specialities" id="specialities">
-  <div class="section-header fade-up">
-    <span class="section-tag">Speciality</span>
-    <h2>My <span class="accent">specialities</span></h2>
-    <p style="color:var(--muted);max-width:500px;margin:16px auto 0;font-size:15px;">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
-  </div>
-  <div class="spec-grid">
-    <div class="spec-card fade-up stagger-1">
-      <div class="spec-icon">✉</div>
-      <h3>Email Marketing</h3>
-      <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
-    </div>
-    <div class="spec-card fade-up stagger-2">
-      <div class="spec-icon">📊</div>
-      <h3>Market Analysis</h3>
-      <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
-    </div>
-    <div class="spec-card fade-up stagger-3">
-      <div class="spec-icon">🔍</div>
-      <h3>Keyword Research</h3>
-      <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
-    </div>
-    <div class="spec-card fade-up stagger-1">
-      <div class="spec-icon">🎨</div>
-      <h3>UI/UX Design</h3>
-      <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
-    </div>
-    <div class="spec-card fade-up stagger-2">
-      <div class="spec-icon">📱</div>
-      <h3>Mobile Design</h3>
-      <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
-    </div>
-    <div class="spec-card fade-up stagger-3">
-      <div class="spec-icon">⚡</div>
-      <h3>Brand Identity</h3>
-      <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ─── WORK PROCESS ─── -->
-<section class="process" id="process">
-  <div class="section-header fade-up">
-    <span class="section-tag">About Me</span>
-    <h2>My <span class="accent">work process</span></h2>
-    <p style="color:var(--muted);max-width:500px;margin:16px auto 0;font-size:15px;">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
-  </div>
-  <div class="process-grid">
-    <div class="process-steps fade-up">
-      <div class="process-step">
-        <div class="step-num">01</div>
-        <div class="step-content">
-          <h3>Discover & Research</h3>
-          <p>Deep dive into your brand, audience, and goals to lay a solid foundation for the design strategy.</p>
+    <div class="topbar">
+        <div class="topbar-socials">
+            <a href="#" title="LinkedIn">in</a>
+            <a href="#" title="Facebook">f</a>
+            <a href="#" title="Tumblr">t</a>
+            <a href="#" title="Dribbble">◎</a>
         </div>
-      </div>
-      <div class="process-step">
-        <div class="step-num">02</div>
-        <div class="step-content">
-          <h3>Wireframe & Prototype</h3>
-          <p>Rapid ideation translated into interactive prototypes that test real user flows before any pixel is polished.</p>
+        <div class="topbar-contact">
+            <span>📞 +223 456 789</span>
+            <span>✉ example@gmail.com</span>
+            <span>📍 6391 Elgin St. Celina, Delaware</span>
         </div>
-      </div>
-      <div class="process-step">
-        <div class="step-num">03</div>
-        <div class="step-content">
-          <h3>Design & Refine</h3>
-          <p>High-fidelity visuals built with obsessive attention to typography, spacing, and motion.</p>
+    </div>
+
+    <nav>
+        <a class="nav-logo" href="#">
+            <span></span>designer
+        </a>
+        <ul class="nav-links">
+            <li><a href="#" class="active">Home</a></li>
+            <li><a href="#specialities">Service</a></li>
+            <li><a href="#portfolio">Projects</a></li>
+            <li><a href="#process">About</a></li>
+            <li><a href="#team">Client</a></li>
+            <li><a href="#footer">Contact</a></li>
+        </ul>
+        <a href="#cta" class="btn btn-primary btn-nav">Discuss for Projects</a>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-eyebrow fade-up">
+                <div class="hero-eyebrow-line"></div>
+                <span>Creative Designer</span>
+            </div>
+            <h1 class="fade-up stagger-1">
+                This is your<br>designer
+                <span class="name">Esther Howard</span>
+            </h1>
+            <p class="hero-desc fade-up stagger-2">
+                Award-winning UI/UX designer crafting bold digital experiences that convert. Turning complex problems into elegant, user-centered solutions.
+            </p>
+            <div class="hero-actions fade-up stagger-3">
+                <a href="#cta" class="btn btn-primary">Discuss for Projects</a>
+                <a href="#portfolio" class="btn-arrow">
+                    View Portfolios
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+            <div class="hero-stats fade-up stagger-4">
+                <div>
+                    <div class="hero-stat-num">8<span>+</span></div>
+                    <div class="hero-stat-label">Years Experience</div>
+                </div>
+                <div>
+                    <div class="hero-stat-num">240<span>+</span></div>
+                    <div class="hero-stat-label">Projects Done</div>
+                </div>
+                <div>
+                    <div class="hero-stat-num">98<span>%</span></div>
+                    <div class="hero-stat-label">Client Satisfaction</div>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="process-step">
-        <div class="step-num">04</div>
-        <div class="step-content">
-          <h3>Deliver & Support</h3>
-          <p>Handoff ready assets with dev specs, plus ongoing support to ensure the vision ships perfectly.</p>
+
+        <div class="hero-visual fade-up stagger-2">
+            <div class="deco-orb deco-orb-1"></div>
+            <div class="deco-orb deco-orb-2"></div>
+            <div class="star-4 deco-star-1"></div>
+            <div class="star-4 deco-star-2"></div>
+
+            <div class="hero-img-wrap">
+                <div class="hero-img-placeholder">👤</div>
+                <div class="badge-rotate">
+                    <svg viewBox="0 0 110 110" width="110" height="110">
+                        <defs>
+                            <path id="circlePath" d="M 55,55 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0" />
+                        </defs>
+                        <circle cx="55" cy="55" r="44" fill="#13131f" stroke="rgba(124,92,252,0.3)" stroke-width="1"/>
+                        <text fill="rgba(200,200,220,0.8)" font-size="9.5" font-family="Outfit" letter-spacing="2.5">
+                            <textPath href="#circlePath">100% SKILLED IN DESIGN • 100% SKILLED IN DESIGN •</textPath>
+                        </text>
+                    </svg>
+                    <div class="badge-inner">✦</div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="process-visual fade-up stagger-2">
-      <div class="process-visual-inner">
-        <div class="big-num">8+</div>
-        <h3 style="font-size:22px;margin-top:16px;">Years of Creative<br>Excellence</h3>
-        <p>Delivering world-class design solutions for global brands and ambitious startups.</p>
-        <div style="display:flex;gap:16px;justify-content:center;margin-top:32px;flex-wrap:wrap;">
-          <div style="text-align:center;padding:16px 24px;background:rgba(124,92,252,0.1);border-radius:12px;border:1px solid var(--border);">
-            <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--accent2);">240+</div>
-            <div style="font-size:12px;color:var(--muted);margin-top:4px;">Projects</div>
-          </div>
-          <div style="text-align:center;padding:16px 24px;background:rgba(124,92,252,0.1);border-radius:12px;border:1px solid var(--border);">
-            <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--accent3);">50+</div>
-            <div style="font-size:12px;color:var(--muted);margin-top:4px;">Clients</div>
-          </div>
+    </section>
+
+    <section class="specialities" id="specialities">
+        <div class="section-header fade-up">
+            <span class="section-tag">Speciality</span>
+            <h2>My <span class="accent">specialities</span></h2>
+            <p class="section-desc">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ─── PORTFOLIO ─── -->
-<section class="portfolio" id="portfolio">
-  <div class="section-header fade-up">
-    <span class="section-tag">Portfolio</span>
-    <h2>My <span class="accent">recent work</span></h2>
-  </div>
-  <div class="portfolio-filter fade-up">
-    <button class="filter-btn active">All</button>
-    <button class="filter-btn">UI/UX Design</button>
-    <button class="filter-btn">Branding</button>
-    <button class="filter-btn">Web Design</button>
-    <button class="filter-btn">Mobile App</button>
-  </div>
-  <div class="portfolio-grid">
-    <div class="portfolio-card fade-up">
-      <div class="portfolio-img" style="background:linear-gradient(135deg,#1e1b4b,#312e81,#4c1d95);">
-        🎨
-        <div class="portfolio-overlay">
-          <span class="portfolio-tag">UI/UX Design</span>
-          <h3>Finance Dashboard</h3>
-          <p>Modern banking application redesign</p>
+        <div class="spec-grid">
+            <div class="spec-card fade-up stagger-1">
+                <div class="spec-icon">✉</div>
+                <h3>Email Marketing</h3>
+                <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
+            </div>
+            <div class="spec-card fade-up stagger-2">
+                <div class="spec-icon">📊</div>
+                <h3>Market Analysis</h3>
+                <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
+            </div>
+            <div class="spec-card fade-up stagger-3">
+                <div class="spec-icon">🔍</div>
+                <h3>Keyword Research</h3>
+                <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
+            </div>
+            <div class="spec-card fade-up stagger-1">
+                <div class="spec-icon">🎨</div>
+                <h3>UI/UX Design</h3>
+                <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
+            </div>
+            <div class="spec-card fade-up stagger-2">
+                <div class="spec-icon">📱</div>
+                <h3>Mobile Design</h3>
+                <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
+            </div>
+            <div class="spec-card fade-up stagger-3">
+                <div class="spec-icon">⚡</div>
+                <h3>Brand Identity</h3>
+                <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
+            </div>
         </div>
-      </div>
-      <div class="portfolio-info">
-        <h3>Finance Dashboard</h3>
-        <p>UI/UX Design • 2024</p>
-      </div>
-    </div>
-    <div class="portfolio-card fade-up stagger-1">
-      <div class="portfolio-img" style="background:linear-gradient(135deg,#064e3b,#065f46,#047857);">
-        📱
-        <div class="portfolio-overlay">
-          <span class="portfolio-tag">Mobile App</span>
-          <h3>Health Tracker</h3>
-          <p>iOS & Android wellness app</p>
+    </section>
+
+    <section class="process" id="process">
+        <div class="section-header fade-up">
+            <span class="section-tag">About Me</span>
+            <h2>My <span class="accent">work process</span></h2>
+            <p class="section-desc">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
         </div>
-      </div>
-      <div class="portfolio-info">
-        <h3>Health Tracker App</h3>
-        <p>Mobile Design • 2024</p>
-      </div>
-    </div>
-    <div class="portfolio-card fade-up stagger-2">
-      <div class="portfolio-img" style="background:linear-gradient(135deg,#7c2d12,#9a3412,#b45309);">
-        🛍
-        <div class="portfolio-overlay">
-          <span class="portfolio-tag">Branding</span>
-          <h3>Fashion Brand</h3>
-          <p>Complete brand identity system</p>
+        <div class="process-grid">
+            <div class="process-steps fade-up">
+                <div class="process-step">
+                    <div class="step-num">01</div>
+                    <div class="step-content">
+                        <h3>Discover & Research</h3>
+                        <p>Deep dive into your brand, audience, and goals to lay a solid foundation for the design strategy.</p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="step-num">02</div>
+                    <div class="step-content">
+                        <h3>Wireframe & Prototype</h3>
+                        <p>Rapid ideation translated into interactive prototypes that test real user flows before any pixel is polished.</p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="step-num">03</div>
+                    <div class="step-content">
+                        <h3>Design & Refine</h3>
+                        <p>High-fidelity visuals built with obsessive attention to typography, spacing, and motion.</p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="step-num">04</div>
+                    <div class="step-content">
+                        <h3>Deliver & Support</h3>
+                        <p>Handoff ready assets with dev specs, plus ongoing support to ensure the vision ships perfectly.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="process-visual fade-up stagger-2">
+                <div class="process-visual-inner">
+                    <div class="big-num">8+</div>
+                    <h3>Years of Creative<br>Excellence</h3>
+                    <p>Delivering world-class design solutions for global brands and ambitious startups.</p>
+                    <div class="mini-stats">
+                        <div class="mini-stat-box">
+                            <div class="mini-stat-num stat-1">240+</div>
+                            <div class="mini-stat-label">Projects</div>
+                        </div>
+                        <div class="mini-stat-box">
+                            <div class="mini-stat-num stat-2">50+</div>
+                            <div class="mini-stat-label">Clients</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="portfolio-info">
-        <h3>Fashion Brand Identity</h3>
-        <p>Branding • 2024</p>
-      </div>
-    </div>
-    <div class="portfolio-card fade-up stagger-3">
-      <div class="portfolio-img" style="background:linear-gradient(135deg,#1e3a5f,#1e40af,#1d4ed8);">
-        💻
-        <div class="portfolio-overlay">
-          <span class="portfolio-tag">Web Design</span>
-          <h3>SaaS Landing Page</h3>
-          <p>High-converting product page</p>
+    </section>
+
+    <section class="portfolio" id="portfolio">
+        <div class="section-header fade-up">
+            <span class="section-tag">Portfolio</span>
+            <h2>My <span class="accent">recent work</span></h2>
         </div>
-      </div>
-      <div class="portfolio-info">
-        <h3>SaaS Landing Page</h3>
-        <p>Web Design • 2023</p>
-      </div>
-    </div>
-  </div>
-  <div style="text-align:center;margin-top:52px;" class="fade-up">
-    <a href="#" class="btn btn-ghost">View All Projects</a>
-  </div>
-</section>
-
-<!-- ─── TESTIMONIAL ─── -->
-<section class="testimonial" id="testimonial">
-  <div class="testimonial-grid">
-    <div class="testimonial-img-wrap fade-up">
-      <div class="testimonial-img">👩‍💼</div>
-      <div class="testimonial-badge">
-        <div class="avatar">⭐</div>
-        <div class="badge-text">
-          <small>Client Since</small>
-          <strong>2021 — Present</strong>
+        <div class="portfolio-filter fade-up">
+            <button class="filter-btn active">All</button>
+            <button class="filter-btn">UI/UX Design</button>
+            <button class="filter-btn">Branding</button>
+            <button class="filter-btn">Web Design</button>
+            <button class="filter-btn">Mobile App</button>
         </div>
-      </div>
-    </div>
-    <div class="testimonial-content fade-up stagger-2">
-      <span class="section-tag">Testimonials</span>
-      <div class="quote-mark">"</div>
-      <p class="testimonial-text">
-        Service is good and I recommend. Working with Esther completely transformed how our users experience our product. The attention to detail, the understanding of user psychology, and the design execution were all exceptional.
-      </p>
-      <div class="testimonial-author">
-        <h4>Sarah Johnson</h4>
-        <p>CEO, TechFlow Inc.</p>
-        <div class="testimonial-stars">★★★★★</div>
-      </div>
-      <div class="testimonial-nav">
-        <button class="t-nav-btn">←</button>
-        <button class="t-nav-btn">→</button>
-      </div>
-    </div>
-  </div>
-</section>
+        <div class="portfolio-grid">
+            <div class="portfolio-card fade-up">
+                <div class="portfolio-img p-img-1">
+                    🎨
+                    <div class="portfolio-overlay">
+                        <span class="portfolio-tag">UI/UX Design</span>
+                        <h3>Finance Dashboard</h3>
+                        <p>Modern banking application redesign</p>
+                    </div>
+                </div>
+                <div class="portfolio-info">
+                    <h3>Finance Dashboard</h3>
+                    <p>UI/UX Design • 2024</p>
+                </div>
+            </div>
+            <div class="portfolio-card fade-up stagger-1">
+                <div class="portfolio-img p-img-2">
+                    📱
+                    <div class="portfolio-overlay">
+                        <span class="portfolio-tag">Mobile App</span>
+                        <h3>Health Tracker</h3>
+                        <p>iOS & Android wellness app</p>
+                    </div>
+                </div>
+                <div class="portfolio-info">
+                    <h3>Health Tracker App</h3>
+                    <p>Mobile Design • 2024</p>
+                </div>
+            </div>
+            <div class="portfolio-card fade-up stagger-2">
+                <div class="portfolio-img p-img-3">
+                    🛍
+                    <div class="portfolio-overlay">
+                        <span class="portfolio-tag">Branding</span>
+                        <h3>Fashion Brand</h3>
+                        <p>Complete brand identity system</p>
+                    </div>
+                </div>
+                <div class="portfolio-info">
+                    <h3>Fashion Brand Identity</h3>
+                    <p>Branding • 2024</p>
+                </div>
+            </div>
+            <div class="portfolio-card fade-up stagger-3">
+                <div class="portfolio-img p-img-4">
+                    💻
+                    <div class="portfolio-overlay">
+                        <span class="portfolio-tag">Web Design</span>
+                        <h3>SaaS Landing Page</h3>
+                        <p>High-converting product page</p>
+                    </div>
+                </div>
+                <div class="portfolio-info">
+                    <h3>SaaS Landing Page</h3>
+                    <p>Web Design • 2023</p>
+                </div>
+            </div>
+        </div>
+        <div class="portfolio-footer fade-up">
+            <a href="#" class="btn btn-ghost">View All Projects</a>
+        </div>
+    </section>
 
-<!-- ─── TEAM ─── -->
-<section class="team" id="team">
-  <div class="section-header fade-up">
-    <span class="section-tag">Teams</span>
-    <h2>My <span class="accent">team members</span></h2>
-    <p style="color:var(--muted);max-width:440px;margin:16px auto 0;font-size:15px;">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
-  </div>
-  <div class="team-grid">
-    <div class="team-card fade-up stagger-1">
-      <div class="team-photo">👨‍💻</div>
-      <div class="team-info">
-        <h3>James Wilson</h3>
-        <div class="team-role">UI & UX Design</div>
-        <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet.</p>
-      </div>
-    </div>
-    <div class="team-card fade-up stagger-2">
-      <div class="team-photo">👩‍🎨</div>
-      <div class="team-info">
-        <h3>Maria Chen</h3>
-        <div class="team-role">UI & UX Design</div>
-        <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet.</p>
-      </div>
-    </div>
-    <div class="team-card fade-up stagger-3">
-      <div class="team-photo">👨‍🎨</div>
-      <div class="team-info">
-        <h3>David Park</h3>
-        <div class="team-role">UI & UX Design</div>
-        <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet.</p>
-      </div>
-    </div>
-    <div class="team-card fade-up stagger-4">
-      <div class="team-photo">👩‍💼</div>
-      <div class="team-info">
-        <h3>Lisa Torres</h3>
-        <div class="team-role">UI & UX Design</div>
-        <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet.</p>
-      </div>
-    </div>
-  </div>
-</section>
+    <section class="testimonial" id="testimonial">
+        <div class="testimonial-grid">
+            <div class="testimonial-img-wrap fade-up">
+                <div class="testimonial-img">👩‍💼</div>
+                <div class="testimonial-badge">
+                    <div class="avatar">⭐</div>
+                    <div class="badge-text">
+                        <small>Client Since</small>
+                        <strong>2021 — Present</strong>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-content fade-up stagger-2">
+                <span class="section-tag">Testimonials</span>
+                <div class="quote-mark">"</div>
+                <p class="testimonial-text">
+                    Service is good and I recommend. Working with Esther completely transformed how our users experience our product. The attention to detail, the understanding of user psychology, and the design execution were all exceptional.
+                </p>
+                <div class="testimonial-author">
+                    <h4>Sarah Johnson</h4>
+                    <p>CEO, TechFlow Inc.</p>
+                    <div class="testimonial-stars">★★★★★</div>
+                </div>
+                <div class="testimonial-nav">
+                    <button class="t-nav-btn">←</button>
+                    <button class="t-nav-btn">→</button>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<!-- ─── CTA BANNER ─── -->
-<div style="padding:0 0 80px;" id="cta">
-  <div class="cta-banner fade-up">
-    <div>
-      <h2>Have any project idea?</h2>
-      <p>Let's bring your vision to life with stunning design.</p>
+    <section class="team" id="team">
+        <div class="section-header fade-up">
+            <span class="section-tag">Teams</span>
+            <h2>My <span class="accent">team members</span></h2>
+            <p class="section-desc">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
+        </div>
+        <div class="team-grid">
+            <div class="team-card fade-up stagger-1">
+                <div class="team-photo">👨‍💻</div>
+                <div class="team-info">
+                    <h3>James Wilson</h3>
+                    <div class="team-role">UI & UX Design</div>
+                    <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet.</p>
+                </div>
+            </div>
+            <div class="team-card fade-up stagger-2">
+                <div class="team-photo">👩‍🎨</div>
+                <div class="team-info">
+                    <h3>Maria Chen</h3>
+                    <div class="team-role">UI & UX Design</div>
+                    <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet.</p>
+                </div>
+            </div>
+            <div class="team-card fade-up stagger-3">
+                <div class="team-photo">👨‍🎨</div>
+                <div class="team-info">
+                    <h3>David Park</h3>
+                    <div class="team-role">UI & UX Design</div>
+                    <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet.</p>
+                </div>
+            </div>
+            <div class="team-card fade-up stagger-4">
+                <div class="team-photo">👩‍💼</div>
+                <div class="team-info">
+                    <h3>Lisa Torres</h3>
+                    <div class="team-role">UI & UX Design</div>
+                    <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="cta-section" id="cta">
+        <div class="cta-banner fade-up">
+            <div>
+                <h2>Have any project idea?</h2>
+                <p>Let's bring your vision to life with stunning design.</p>
+            </div>
+            <a href="mailto:example@gmail.com" class="btn btn-white">📨 &nbsp;Contact Now</a>
+        </div>
     </div>
-    <a href="mailto:example@gmail.com" class="btn btn-white">📨 &nbsp;Contact Now</a>
-  </div>
-</div>
 
-<!-- ─── FOOTER ─── -->
-<footer id="footer">
-  <div class="footer-grid">
-    <div class="footer-brand">
-      <a class="nav-logo" href="#" style="color:var(--text);text-decoration:none;">
-        <span></span>designer
-      </a>
-      <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
-      <div class="footer-socials">
-        <a href="#" class="social-btn" title="LinkedIn">in</a>
-        <a href="#" class="social-btn" title="Facebook">f</a>
-        <a href="#" class="social-btn" title="Twitter">𝕏</a>
-        <a href="#" class="social-btn" title="Dribbble">◎</a>
-      </div>
-    </div>
-    <div class="footer-col">
-      <h4>Quick Link</h4>
-      <ul class="footer-links">
-        <li><a href="#">Home</a></li>
-        <li><a href="#specialities">Service</a></li>
-        <li><a href="#portfolio">Projects</a></li>
-        <li><a href="#process">About</a></li>
-        <li><a href="#team">Client</a></li>
-        <li><a href="#footer">Contact</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Important</h4>
-      <ul class="footer-links">
-        <li><a href="#">Career</a></li>
-        <li><a href="#">Terms & Conditions</a></li>
-        <li><a href="#">Privacy Policy</a></li>
-        <li><a href="#">Cookie Policy</a></li>
-        <li><a href="#">Social Media</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Contacts</h4>
-      <div class="footer-contact-item">
-        <span>📞</span>
-        <span>+223 456 789</span>
-      </div>
-      <div class="footer-contact-item">
-        <span>✉</span>
-        <span>example@gmail.com</span>
-      </div>
-      <div class="footer-contact-item">
-        <span>📍</span>
-        <span>6391 Elgin St. Celina,<br>Delaware</span>
-      </div>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <p>© 2024 <span>Esther Howard</span>. All Rights Reserved.</p>
-    <p>Designed with ♥ by <span>Esther Howard</span></p>
-  </div>
-</footer>
+    <footer id="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a class="nav-logo footer-logo" href="#">
+                    <span></span>designer
+                </a>
+                <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
+                <div class="footer-socials">
+                    <a href="#" class="social-btn" title="LinkedIn">in</a>
+                    <a href="#" class="social-btn" title="Facebook">f</a>
+                    <a href="#" class="social-btn" title="Twitter">𝕏</a>
+                    <a href="#" class="social-btn" title="Dribbble">◎</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Link</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#specialities">Service</a></li>
+                    <li><a href="#portfolio">Projects</a></li>
+                    <li><a href="#process">About</a></li>
+                    <li><a href="#team">Client</a></li>
+                    <li><a href="#footer">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Important</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Career</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                    <li><a href="#">Social Media</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contacts</h4>
+                <div class="footer-contact-item">
+                    <span>📞</span>
+                    <span>+223 456 789</span>
+                </div>
+                <div class="footer-contact-item">
+                    <span>✉</span>
+                    <span>example@gmail.com</span>
+                </div>
+                <div class="footer-contact-item">
+                    <span>📍</span>
+                    <span>6391 Elgin St. Celina,<br>Delaware</span>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 <span>Esther Howard</span>. All Rights Reserved.</p>
+            <p>Designed with ♥ by <span>Esther Howard</span></p>
+        </div>
+    </footer>
 
-<script>
-  // ─── Custom cursor ───
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursor-ring');
-  let mx = 0, my = 0, rx = 0, ry = 0;
-  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-  function animCursor() {
-    cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
-    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
-    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-    requestAnimationFrame(animCursor);
-  }
-  animCursor();
-  document.querySelectorAll('a, button').forEach(el => {
-    el.addEventListener('mouseenter', () => { cursor.style.width = '20px'; cursor.style.height = '20px'; ring.style.width = '56px'; ring.style.height = '56px'; });
-    el.addEventListener('mouseleave', () => { cursor.style.width = '12px'; cursor.style.height = '12px'; ring.style.width = '36px'; ring.style.height = '36px'; });
-  });
-
-  // ─── Scroll reveal ───
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
-
-  // ─── Portfolio filter ───
-  document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-    });
-  });
-
-  // ─── Testimonial nav (basic) ───
-  const testimonials = [
-    { text: "Service is good and I recommend. Working with Esther completely transformed how our users experience our product. The attention to detail and design execution were all exceptional.", author: "Sarah Johnson", role: "CEO, TechFlow Inc." },
-    { text: "Esther delivered beyond our expectations. The redesign increased our conversion rate by 40% within the first month. Her process is thorough, creative, and always on time.", author: "Michael Roberts", role: "Founder, StartupHub" },
-    { text: "An incredibly talented designer who understands both aesthetics and function. Our brand has never looked better, and the response from our customers has been overwhelmingly positive.", author: "Elena Vasquez", role: "Marketing Director, NovaLabs" },
-  ];
-  let tIdx = 0;
-  const tText = document.querySelector('.testimonial-text');
-  const tName = document.querySelector('.testimonial-author h4');
-  const tRole = document.querySelector('.testimonial-author p');
-  document.querySelectorAll('.t-nav-btn').forEach((btn, i) => {
-    btn.addEventListener('click', () => {
-      tIdx = i === 0 ? (tIdx - 1 + testimonials.length) % testimonials.length : (tIdx + 1) % testimonials.length;
-      tText.style.opacity = 0;
-      setTimeout(() => {
-        tText.textContent = testimonials[tIdx].text;
-        tName.textContent = testimonials[tIdx].author;
-        tRole.textContent = testimonials[tIdx].role;
-        tText.style.opacity = 1;
-      }, 200);
-    });
-  });
-  tText.style.transition = 'opacity 0.3s';
-
-  // ─── Parallax on hero ───
-  window.addEventListener('scroll', () => {
-    const y = window.scrollY;
-    const hero = document.querySelector('.hero-content');
-    if (hero) hero.style.transform = `translateY(${y * 0.08}px)`;
-  });
-</script>
+    <script src="script.js"></script>
 </body>
 </html>
